@@ -1,0 +1,2 @@
+git+https://gitlab.com/goldbrandsoftwarepublic/scicast_bot_session.git
+
