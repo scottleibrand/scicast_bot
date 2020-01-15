@@ -44,4 +44,3 @@ if __name__ == '__main__':
             history = s.get_question_history(question_id)
             current_prob = get_latest_prob_from_history(history)
             print(current_prob)
-        sleep(0)
