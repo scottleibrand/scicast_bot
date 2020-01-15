@@ -11,10 +11,20 @@ def get_latest_prob_from_history(history) -> float:
 
 
 if __name__ == '__main__':
+    with SciCastBotSession(base_url=scicast_bot_urls['dev'], api_key=api_key) as s:
+        ri = s.get_round_info()
+        print(ri)
+
     while(True):
         with SciCastBotSession(base_url=scicast_bot_urls['dev'], api_key=api_key) as s:
-            assets = s.get_user_info()['cash']
+
+
+            assets = s.get_user_info()#['cash']
             print(assets)
+
+            recent_trades = s.get_recent_trades()
+            print(recent_trades)
+
 
             question_id = 503
             history = s.get_question_history(question_id)
@@ -23,15 +33,15 @@ if __name__ == '__main__':
             print(orig_prob)
 
             # add a trade
-            s.submit_trade(question_id, orig_prob+.01)
+            s.trade(question_id, orig_prob+.01)
 
             history = s.get_question_history(question_id)
             current_prob = get_latest_prob_from_history(history)
             print(current_prob)
 
-            s.submit_trade(question_id, orig_prob)
+            s.trade(question_id, orig_prob)
 
             history = s.get_question_history(question_id)
             current_prob = get_latest_prob_from_history(history)
             print(current_prob)
-        sleep(3600)
+        sleep(0)
