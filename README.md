@@ -1,4 +1,5 @@
-# scicast_bot_example for Replication Markets (SciCast engine)
+# scicast_bot_example
+Example bots for Replication Markets.
 
 We provide two simple bots to show how to use the simplified bot API
 developed in January 2020 for Replication Markets. (See for example, 
