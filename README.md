@@ -1,14 +1,27 @@
-# simple_bot for SciCast / ReplicationMarkets
+# scicast_bot_example for Replication Markets (SciCast engine)
 
-simple_bot is a very simple SciCast bot. It uses the new simplified bot API
+We provide two simple bots to show how to use the simplified bot API
 developed in January 2020 for Replication Markets. (See for example, 
-[the Swagger docs](https://sandbox.replicationmarkets.com/bot/api_docs#!/Get_Round_Info/get_round_info).)
+[the API docs](https://sandbox.replicationmarkets.com/bot/api_docs).)
 
 This API is built around the "change the probability" view of the market.
-It assumes you have a model of what the probability should be. 
+It assumes your bot has a model of what the probability should be. 
+There are underlying functions that let you take more of a "buy-shares"
+approach, but they are not demonstrated here.
 
-simple_bot has no real model. It simply makes a 1% change in a random claim, 
-and then reverses it, every minute.
+* **NoiseBot** selects a few claims at random, and for each one flips a coin. 
+Heads, it raises the probability by a little bit (buys Yes / sells No). 
+Tails, it reduces the probability (sells Yes / buys No).
+
+* **PriorBot** has a simple model: it believes the starting price is right.
+It sorts claims by most-changed, and randomly selects a few from among the
+Top N.  It then nudges them back towards the starting price.
+
+Both bots pick trade size using the smaller of:
+* An absolute value like 3% (3 percentage points, .003), or
+* A small fraction of their remaining budget (via `clipped_trade`)
+
+We recommend you use similar guards to keep from spending all your points at once.
 
 ## Features:
 * Demonstrates how to connect to a SciCastBotSession.
@@ -28,29 +41,30 @@ and then reverses it, every minute.
   * Create an account.
 
 3. Get an API key
-  * Email your market helpdesk to ask them to give you one.
+  * Email the RM helpdesk (support@replicationmarkets.com) to ask.
   * View your profile page to see what it is. (Not your public profile!)
 
 4. Make your API key available to the simple_bot.
   * It assumes you've exported an environment variable BOT_API_KEY. 
     * Unix example: `export BOT_API_KEY=xxxxxxxxxxxx`   (Use a real API key!)
     * Or, set this in your IDE under Runtime settings.
-  * Alternatively, put this in a file and replace the `os.getenv` call with
+  * Or, put this in a file and replace the `os.getenv` call with
   a file read.
-  * As a last resort, just hardcode it.  
-    * **But not if you share your code or post to git!**
+  * Or use an `input` call and paste it when run.
+  * Last resort, hard code it, _but not if you share your code!_
 
-5. Run the script, e.g. `python simple_bot.py`
+5. Run the script, e.g. `python parse.py`
 
 
-Of course, the point is for you to _modify_ simple_bot to do useful things.
+Of course, the point is for you to _modify_ these to do useful things.
+PriorBot is likely your best starting place. In the future we may refactor
+these to use inheritance.
 
-Please take care to rate limit your actions.
-
-It’s running in the background on my machine, trading once a minute.
+Also note there may be more functions available than we demonstrate.
+Such as `get_recent_trades`.  
 		 
 
-## Example Output
+## Example Output - probably outdated
 ### Background info including 3 most recent trades
 ```
 ___ASSETS___:
