@@ -5,11 +5,9 @@ We provide two simple bots to show how to use the simplified bot API
 developed in January 2020 for Replication Markets. (See for example, 
 [the API docs](https://sandbox.replicationmarkets.com/bot/api_docs).)
 
-This API is built around the "change the probability" view of the market.
-It assumes your bot has a model of what the probability should be. 
-There are underlying functions that let you take more of a "buy-shares"
-approach, but they are not demonstrated here.
+See also [Bot Rules](BOT_RULES.md) for bot behavior guidelines. 
 
+The two example bots are:
 * **NoiseBot** selects a few claims at random, and for each one flips a coin. 
 Heads, it raises the probability by a little bit (buys Yes / sells No). 
 Tails, it reduces the probability (sells Yes / buys No).
@@ -19,10 +17,14 @@ It sorts claims by most-changed, and randomly selects a few from among the
 Top N.  It then nudges them back towards the starting price.
 
 Both bots pick trade size using the smaller of:
-* An absolute value like 3% (3 percentage points, .003), or
+* An absolute value like 1% (1 percentage point, .001) at a time, or
 * A small fraction of their remaining budget (via `clipped_trade`)
 
 We recommend you use similar guards to keep from spending all your points at once.
+
+These examples explicitly adjust the probability. 
+If you're more of a finance type, the API does provide some more 
+buy/sell-oriented functions, but they are not demonstrated here. 
 
 ## Features:
 * Demonstrates how to connect to a SciCastBotSession.
