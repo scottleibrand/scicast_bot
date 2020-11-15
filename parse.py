@@ -2,10 +2,11 @@ import argparse
 from scicast_bot_session.common.utils import scicast_bot_urls
 import PriorBot as pb
 import NoiseBot as nb
+import GetInfoBot as gib
 
 if __name__ == "__main__":
     sites = list(scicast_bot_urls.keys())
-    bots = ['noise','prior']
+    bots = ['noise','prior','getinfo']
     parser = argparse.ArgumentParser(description="Parser for Trading Bots")
     
     parser.add_argument('--bot',choices=bots,type=str,help=f'Which Bot to run?')
@@ -23,6 +24,8 @@ if __name__ == "__main__":
             pb.trade(site=site,roundid=rnd)
         elif bot =='noise':
             nb.trade(site=site,roundid=rnd)
+        elif bot =='getinfo':
+            gib.getinfo(site=site,roundid=rnd)
     elif site == 'predict':
         if bot == 'prior':
             pb.trade(site=site,bot=bot,roundid=rnd)
